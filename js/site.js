@@ -20,6 +20,12 @@ $(document).ready(function() {
             }
         });
 
+        //This ^ API query gives us a list of (hashes of) all transactions that involve the btc address we gave it.
+        //For example, you'll see that the first txn hash that is listed is ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98.
+        //We can grab the actual transaction data itself (which we'll need) using another API call. In particular, this one:
+        //https://insight.bitpay.com/api/tx/ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98
+        //The response to that ^ API call is the actual bitcoin transaction (whose hash is 'ae5334447....'). We can parse that to get the inputs to the txn. :)
+
         $('.js_bitadd-heading > span').text(bitaddress);
 
         // initiate spinner
