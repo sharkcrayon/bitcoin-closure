@@ -1,25 +1,11 @@
 $(document).ready(function() {
 
-    var spinner = null;
+    var spinner;
 
      function initiateSpinner() {
         var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
         var target = document.getElementById('spinner');
         spinner = new Spinner(opts).spin(target);
-    }
-
-    function ajaxQueue(qName, apiUrl) {
-        $(document).queue(qName, function() {
-            $.ajax({
-                type     : 'POST',
-                async    : true,
-                url      : apiUrl,
-                dataType : 'JSONP',
-                success  : function(data) {
-                    $(document).dequeue(qName); // activate the next ajax call when this one finishes
-                }
-            });
-        });
     }
 
     $('.js-bitaddress').submit(function(e) {
@@ -31,27 +17,6 @@ $(document).ready(function() {
         // do friendly things for the user
         initiateSpinner();
         $('.js_bitadd-heading > span').text(bitaddress);
-
-        //playing around with synchronous ajax calls. probbaly going to throw this particular method out.
-        // ajaxQueue('getTransactions', 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json');
-
-        // var queue_name       = 'a_queue';
-        // var concurrent_calls = 2;
-
-        // // add first AJAX call to queue
-        // add_api_call_to_queue(queue_name, '/example/api/books');
-
-        // // add second AJAX call to queue
-        // add_api_call_to_queue(queue_name, '/example/api/dvds');
-
-        // // add third AJAX call to queue
-        // add_api_call_to_queue(queue_name, '/example/api/shoes');
-
-        // // start the AJAX queue
-        // for (i=0;i<concurrent_calls;i++) {
-        //     $(document).dequeue(queue_name);
-        // }
-
 
         // start ajax calls
         $.ajax({
