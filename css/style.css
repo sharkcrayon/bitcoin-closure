@@ -1,0 +1,8 @@
+html { font-size: 18px; font-family: 'Lato', sans-serif; }
+body { font-size: 100%; }
+
+input, form, div { box-sizing: border-box; }
+
+#f-bitaddress { width: 370px; margin: 0 auto; overflow: hidden; margin-top: 100px; }
+#f-bitaddress__input { padding: 10px; width: 300px; float: left; height: 37px; }
+#f-bitaddress__submit { border: none; background-color: #009AEF; color: #fff; width: 60px; margin-left: 10px; padding: 0; height: 37px; line-height: 37px; }
