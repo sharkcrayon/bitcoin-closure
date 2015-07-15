@@ -20,5 +20,7 @@ $(document).ready(function() {
         //     }
         // });
 
+        $('.js_bitadd-heading > span').text(bitaddress);
+
     });
 })

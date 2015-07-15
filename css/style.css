@@ -3,12 +3,18 @@
 html { font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 300; color: #666; } 
 body { font-size: 100%; }
 
+h1 { font-size: 1.2rem; color: #444; margin: 0; }
+
 input, form, div { box-sizing: border-box; font-family: inherit; }
 
 pre, pre.prettyprint { margin: 0 !important; padding: 0 !important; border: 0 !important; font-size: 14px; }
+
+.center { text-align: center; }
 
 #f-bitaddress { width: 380px; margin: 0 auto; overflow: hidden; margin-top: 100px; }
 #f-bitaddress__input { padding: 0 20px; width: 300px; float: left; height: 44px; line-height: 44px; }
 #f-bitaddress__submit { border: none; background-color: #009AEF; color: #fff; width: 70px; margin-left: 10px; padding: 0; height: 44px; line-height: 44px; cursor: pointer; }
 
-#results { width: 100%; max-width: 600px; margin: 40px auto; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
+#submitted-info { width: 100%; max-width: 600px; margin: 0 auto; padding: 30px 0 0; }
+
+#results { width: 100%; max-width: 600px; margin: 30px auto 0; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
