@@ -17,4 +17,4 @@ pre, pre.prettyprint { margin: 0 !important; padding: 0 !important; border: 0 !i
 
 #submitted-info { width: 100%; max-width: 600px; margin: 0 auto; padding: 30px 0 0; }
 
-#results { width: 100%; max-width: 600px; margin: 30px auto 0; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
+#results { width: 100%; max-width: 600px; min-height: 300px; position: relative; margin: 30px auto 0; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
