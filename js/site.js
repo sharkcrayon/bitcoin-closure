@@ -1,10 +1,19 @@
 $(document).ready(function() {
 
+    var initiateSpinner = function() {
+        var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
+        var target = document.getElementById('spinner');
+        var spinner = new Spinner(opts).spin(target);
+    };
+
     $('.js-bitaddress').submit(function(e) {
 
         e.preventDefault();
 
         var bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
+
+        initiateSpinner();
+        $('.js_bitadd-heading > span').text(bitaddress);
 
         // $.getJSON('https://insight.bitpay.com/api/addr/' + bitaddress + '?cors=true')
         //     .done(function(data) {
@@ -16,6 +25,7 @@ $(document).ready(function() {
             dataType : "JSONP",
             url : 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json',
             success : function(data) {
+                spinner.stop();
                 $('#results > pre').text(JSON.stringify(data));
             }
         });
@@ -25,63 +35,6 @@ $(document).ready(function() {
         //We can grab the actual transaction data itself (which we'll need) using another API call. In particular, this one:
         //https://insight.bitpay.com/api/tx/ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98
         //The response to that ^ API call is the actual bitcoin transaction (whose hash is 'ae5334447....'). We can parse that to get the inputs to the txn. :)
-
-        $('.js_bitadd-heading > span').text(bitaddress);
-
-        // initiate spinner
-        var opts = {
-            lines: 9, // The number of lines to draw
-            length: 6, // The length of each line
-            width: 4, // The line thickness
-            radius: 6, // The radius of the inner circle
-            scale: 1, // Scales overall size of the spinner
-            corners: 1, // Corner roundness (0..1)
-            color: '#000', // #rgb or #rrggbb or array of colors
-            opacity: 0.25, // Opacity of the lines
-            rotate: 0, // The rotation offset
-            direction: 1, // 1: clockwise, -1: counterclockwise
-            speed: 0.8, // Rounds per second
-            trail: 72, // Afterglow percentage
-            fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-            zIndex: 2e9, // The z-index (defaults to 2000000000)
-            className: 'spinner', // The CSS class to assign to the spinner
-            top: '50%', // Top position relative to parent
-            left: '50%', // Left position relative to parent
-            shadow: false, // Whether to render a shadow
-            hwaccel: true, // Whether to use hardware acceleration
-            position: 'absolute' // Element positioning
-        };
-        var target = document.getElementById('spinner');
-        var spinner = new Spinner(opts).spin(target);
-
-        // load example result
-        //var tmp_JSON = '{"title": "Example Schema","type": "object","properties": {"firstName": {"type": "string"},"lastName": {"type": "string"},"age": {"description": "Age in years","type": "integer","minimum": 0}},"required": ["firstName", "lastName"]}';
-
-        // var tmp_JSON = {
-        //     "title": "Example Schema",
-        //     "type": "object",
-        //     "properties": {
-        //         "firstName": {
-        //             "type": "string"
-        //         },
-        //         "lastName": {
-        //             "type": "string"
-        //         },
-        //         "age": {
-        //             "description": "Age in years",
-        //             "type": "integer",
-        //             "minimum": 0
-        //         }
-        //     },
-        //     "required": ["firstName", "lastName"]
-        // };
-
-        // var tmp_submitSuccess = function() {
-        //     spinner.stop();
-        //     $('#results > pre').text(JSON.stringify(tmp_JSON));
-        // };
-
-        // setTimeout(tmp_submitSuccess, 3000);
 
     });
 })
