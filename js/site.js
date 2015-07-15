@@ -17,11 +17,6 @@ $(document).ready(function() {
         initiateSpinner();
         $('.js_bitadd-heading > span').text(bitaddress);
 
-        // $.getJSON('https://insight.bitpay.com/api/addr/' + bitaddress + '?cors=true')
-        //     .done(function(data) {
-        //         $('#results > pre').text(JSON.stringify(data));
-        //     });
-
         $.ajax({
             type : "POST",
             dataType : "JSONP",
