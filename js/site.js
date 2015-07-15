@@ -6,19 +6,19 @@ $(document).ready(function() {
 
         var bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
 
-        // $.getJSON('https://blockexplorer.com/q/mytransactions/' + bitaddress + '?cors=true')
+        // $.getJSON('https://insight.bitpay.com/api/addr/' + bitaddress + '?cors=true')
         //     .done(function(data) {
         //         $('#results > pre').text(JSON.stringify(data));
         //     });
 
-        // $.ajax({
-        //     type : "POST",
-        //     dataType : "JSONP",
-        //     url : 'https://blockchain.info/address/' + bitaddress + '?format=json',
-        //     success : function(data) {
-        //         $('#results > pre').text(JSON.stringify(data));
-        //     }
-        // });
+        $.ajax({
+            type : "POST",
+            dataType : "JSONP",
+            url : 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json',
+            success : function(data) {
+                $('#results > pre').text(JSON.stringify(data));
+            }
+        });
 
         $('.js_bitadd-heading > span').text(bitaddress);
 
@@ -51,31 +51,31 @@ $(document).ready(function() {
         // load example result
         //var tmp_JSON = '{"title": "Example Schema","type": "object","properties": {"firstName": {"type": "string"},"lastName": {"type": "string"},"age": {"description": "Age in years","type": "integer","minimum": 0}},"required": ["firstName", "lastName"]}';
 
-        var tmp_JSON = {
-            "title": "Example Schema",
-            "type": "object",
-            "properties": {
-                "firstName": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "age": {
-                    "description": "Age in years",
-                    "type": "integer",
-                    "minimum": 0
-                }
-            },
-            "required": ["firstName", "lastName"]
-        };
+        // var tmp_JSON = {
+        //     "title": "Example Schema",
+        //     "type": "object",
+        //     "properties": {
+        //         "firstName": {
+        //             "type": "string"
+        //         },
+        //         "lastName": {
+        //             "type": "string"
+        //         },
+        //         "age": {
+        //             "description": "Age in years",
+        //             "type": "integer",
+        //             "minimum": 0
+        //         }
+        //     },
+        //     "required": ["firstName", "lastName"]
+        // };
 
-        var tmp_submitSuccess = function() {
-            spinner.stop();
-            $('#results > pre').text(JSON.stringify(tmp_JSON));
-        };
+        // var tmp_submitSuccess = function() {
+        //     spinner.stop();
+        //     $('#results > pre').text(JSON.stringify(tmp_JSON));
+        // };
 
-        setTimeout(tmp_submitSuccess, 3000);
+        // setTimeout(tmp_submitSuccess, 3000);
 
     });
 })
