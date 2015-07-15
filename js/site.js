@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
-    var spinner;
+    // var spinner = (function () {
+    //     var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
+    //     return new Spinner(opts);
+    // })();
 
-     function initiateSpinner() {
-        var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
-        var target = document.getElementById('spinner');
-        spinner = new Spinner(opts).spin(target);
-    }
+    var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
+    var spinner = new Spinner(opts);
 
     $('.js-bitaddress').submit(function(e) {
 
@@ -15,9 +15,10 @@ $(document).ready(function() {
         var bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
 
         // do friendly things for the user
-        initiateSpinner();
+        spinner.spin(document.getElementById('spinner'));
         $('.js_bitadd-heading > span').text(bitaddress);
 
+        // TODO: we'll need to replace this with promises.
         // start ajax calls
         $.ajax({
             type : "POST",
