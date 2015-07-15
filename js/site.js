@@ -1,9 +1,11 @@
 $(document).ready(function() {
 
+    var spinner = null;
+
     var initiateSpinner = function() {
         var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
         var target = document.getElementById('spinner');
-        var spinner = new Spinner(opts).spin(target);
+        spinner = new Spinner(opts).spin(target);
     };
 
     $('.js-bitaddress').submit(function(e) {
