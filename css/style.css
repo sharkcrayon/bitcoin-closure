@@ -9,6 +9,8 @@ input, form, div { box-sizing: border-box; font-family: inherit; }
 
 pre, pre.prettyprint { margin: 0 !important; padding: 0 !important; border: 0 !important; font-size: 14px; }
 
+button:focus, input:focus { outline: none; }
+
 .center { text-align: center; }
 
 #f-bitaddress { width: 380px; margin: 0 auto; overflow: hidden; margin-top: 100px; }

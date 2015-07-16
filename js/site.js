@@ -1,27 +1,39 @@
 $(document).ready(function() {
 
+    var bitaddress,
+        closure = [], // the closure of bitaddress
+        toBeProcessed = [], // the list of addresses to process
+        txnList = [],
+        inputsList = [];
+
+    // just a nice waiting indicator for the user
     var spinner = (function () {
         var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
         return new Spinner(opts);
     })();
 
-    var bitaddress,
-        closure = [], // this will be the closure of bitcaddress. It is initiated empty.
-        toBeProcessed = [bitaddress], // this is the list of addresses to process. It starts with just one addresses in it -- bitaddress
-        txnList = [],
-        inputsList = [];
+    // the odds and ends we want to do when the process begins
+    var initSubmit = function() {
+        // be nice and communicate to the user
+        spinner.spin(document.getElementById('spinner'));
+        $('.js_bitadd-heading > span').text(bitaddress);
+
+        // prepare the submitted address for checking
+        bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
+        toBeProcessed.push(bitaddress);
+    };
+
+    // display the results to the user
+    var displayData = function(data, message) {
+        spinner.stop();
+        $('#results > pre').text(message + JSON.stringify(data, null, '\t'));
+    };
 
     $('.js-bitaddress').submit(function(e) {
 
         e.preventDefault();
 
-        var bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
-
-        // do friendly things for the user
-        spinner.spin(document.getElementById('spinner'));
-        $('.js_bitadd-heading > span').text(bitaddress);
-
-        /// Closure Code
+        initSubmit();
 
         while (toBeProcessed.length > 0) {
             var addr = toBeProcessed.shift(); // grab the top address to be processed; remove from toBeProcessed
@@ -36,8 +48,7 @@ $(document).ready(function() {
                 dataType : "JSONP",
                 url : 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json',
                 success : function(data) {
-                    spinner.stop();
-                    $('#results > pre').text('Transactions associated with original address: \n\n' + JSON.stringify(data.transactions, null, '\t'));
+                    displayData(data.transactions, 'Transactions associated with original address: \n\n');
                     txnList = data.transactions; // store the transaction data for further processing
                 }
             }).then(function() {
@@ -113,20 +124,6 @@ $(document).ready(function() {
                 }
             });
         }
-
-        //// END Closure Code
-
-        // TODO: we'll need to replace this with promises.
-        // Old ajax call
-        // $.ajax({
-        //     type : "POST",
-        //     dataType : "JSONP",
-        //     url : 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json',
-        //     success : function(data) {
-        //         spinner.stop();
-        //         $('#results > pre').text(JSON.stringify(data));
-        //     }
-        // });
 
         //This ^ API query gives us a list of (hashes of) all transactions that involve the btc address we gave it.
         //For example, you'll see that the first txn hash that is listed is ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98.
