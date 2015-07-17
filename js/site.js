@@ -19,7 +19,7 @@ $(document).ready(function() {
         $('.js_bitadd-heading > span').text(bitaddress);
 
         // prepare the submitted address for checking
-        bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val();
+        bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK'; // $('#f-bitaddress__input').val();
         toBeProcessed.push(bitaddress);
     };
 
@@ -34,35 +34,39 @@ $(document).ready(function() {
         e.preventDefault();
 
         initSubmit();
-
+        console.log("Begining WHILE loop.")
         while (toBeProcessed.length > 0) {
             var addr = toBeProcessed.shift(); // grab the top address to be processed; remove from toBeProcessed
-
+            console.log("   The address currently being processed is: ", addr)
             // process the address by putting the address in the closure
             closure.push(addr);
-            console.log("the closure currently looks like: " + closure); // CONSOLE
+            console.log("   The closure currently looks like: " , closure); // CONSOLE
 
-            // get the list of all transactions involving that address through an API call
+            // get the list of all transactions involving the address addr through an API call
+            console.log("   Initiating an API call to find txn hashes assoc'd with ", addr)
             $.ajax({
                 type : "POST",
                 dataType : "JSONP",
-                url : 'https://insight.bitpay.com/api/addr/' + bitaddress + '?format=json',
+                url : 'https://insight.bitpay.com/api/addr/' + addr + '?format=json',
                 success : function(data) {
                     displayData(data.transactions, 'Transactions associated with original address: \n\n');
                     txnList = data.transactions; // store the transaction data for further processing
                 }
             }).then(function() {
+                console.log("   we got the txn hashes assoc'd with ", addr)
+                console.log("   The list off transaction assoc'd with ", addr, "is: ", txnList)
+                console.log("   now we're initiating API calls to get the specifics for each of the ", txnList.length, "txn hashes")
                 // for each txn in txnList we check to see if addr is one of the inputs
                 // if it is, then the other inputs in this transaction may need to be processed if it hasn't been processed already.
                 for (var i = 0; i < txnList.length; i++) {
+                    console.log("       API call being initiated for txn ", txnList[i])
                     // grab the list of inputs for txn and store them in inputsList. the first step in this 'grab' to get all the info for the txn:
                     $.ajax({
                         type : "POST",
                         dataType : "JSONP",
-                        url : 'https://insight.bitpay.com/api/tx/' + txn + '?format=json',
+                        url : 'https://insight.bitpay.com/api/tx/' + txnList[i] + '?format=json',
                         success : function(data) {
                             $('#results > pre').text(JSON.stringify(data));
-                            console.log("here's data" + data);
                             //in particular we are interested in the data.vin section (data.vin is an array, where each array entry corresponds to exactly one of the inputs of the transaction txn)
                             //if there is only one input, then we don't need to do anything more.
                             if (data.vin.length > 1){
@@ -124,7 +128,7 @@ $(document).ready(function() {
                 }
             });
         }
-
+        displayData(closure, "The closure looks like: ")
         //This ^ API query gives us a list of (hashes of) all transactions that involve the btc address we gave it.
         //For example, you'll see that the first txn hash that is listed is ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98.
         //We can grab the actual transaction data itself (which we'll need) using another API call. In particular, this one:
