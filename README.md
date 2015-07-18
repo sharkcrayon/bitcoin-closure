@@ -4,7 +4,7 @@
 **bitcoin-closure** is a tool for computing the closure of a bitcoin address.
 
 ## What is the Closure of a Bitcoin Address?
-The closure of a bitcoin address is is defined recursively as follows:
+The closure of a bitcoin address is defined recursively as follows:
 
 1. An address is contained in its own closure.
 2. If address A is in the closure, and there exists a transaction using coins from address A and address B as inputs, then address B is also in the closure.
