@@ -69,7 +69,7 @@ As a good first example, try this command:
 
 And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
 
-### More about Closures
+### Some Thoughts About Closures
 Let **X** be the set of all bitcoin addresses.
 We will write A ~ B whenever bitcoin address A is in the closure of bitcoin address B.
 
