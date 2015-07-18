@@ -157,12 +157,16 @@ $(document).ready(function() {
         initSubmit();
 
         // TODO: Check that entered value is actually a bitcoin address.
+        // TODO: Use blockchain.info API and get rid of extra API call.
+        // TODO: Rewrite so addr variable is used correctly for the closure.
 
         bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
         toBeProcessed.push(bitaddress);
 
         console.log('getting transaction hashes');
         getTransactionHashes();
+
+        // TODO: Print bitcoin total.
 
     });
 });
