@@ -126,7 +126,13 @@ $(document).ready(function() {
         }
     };
 
-    var getTansactions = function(e) {
+    var hashesReceived = new Event('hashesReceived');
+    document.addEventListener('hashesReceived', getTansactions, false);
+
+    var transactionsReceived = new Event('transactionsReceived');
+    document.addEventListener('transactionsReceived', getTransactionHashes, false);
+
+    function getTansactions(e) {
         console.log('get transactions');
 
         iterationTracker.getTransactions.iterations = 0;
@@ -143,7 +149,6 @@ $(document).ready(function() {
                     // check to see if original address is in transaction input list; if so, add to toBeProcessed if it has not been processed.
                     // extractBTCAddresses(txn, data, addr);
                     if (data.vin.length > 1) { // data.vin hold the inputs for txn.
-                        console.log('data.vin: ', data.vin);
                         
                         // grab the bitcoin addresses associated with each input
                         inputAddresses = [];
@@ -155,10 +160,10 @@ $(document).ready(function() {
                         foundAddr = false;
                         if ((addrIndex = inputAddresses.indexOf(addr)) > -1) {
                             foundAddr = true;
+                            console.log('The inputs from this transaction are in the closure of the submitted address.');
+                        } else {
+                            console.log('None of the inputs from this transaction are in the closure with the submitted address. Moving to the next transaction.');
                         }
-                        console.log('foundAddr: ', foundAddr);
-                        console.log('input addresses: ', inputAddresses);
-                        console.log('bitaddress: ', bitaddress);
 
                         // if inputAddresses are in the closure of bitaddress:
                         if (foundAddr) {
@@ -166,7 +171,7 @@ $(document).ready(function() {
                             for (var k in inputAddresses) {
                                 if ((closure.indexOf(inputAddresses[k]) == -1) && (toBeProcessed.indexOf(inputAddresses[k]) === -1)) {
                                     toBeProcessed = toBeProcessed.concat(inputAddresses[k]);
-                                    console.log('added to toBeProcessed');
+                                    console.log('This input address has not been processed. Adding it to toBeProcessed.');
                                 }
                             }
 
@@ -178,18 +183,18 @@ $(document).ready(function() {
                 iterationTracker.getTransactions.iterations++;
                 if (isFinished('getTransactions')) {
                     console.log('we have all the transactions');
-                    console.log('toBeProcessed: ', toBeProcessed);
-                    //document.dispatchEvent(hashesReceived);
+                    if (toBeProcessed.length > 0) {
+                        console.log('toBeProcessed: ', toBeProcessed);
+                        document.dispatchEvent(transactionsReceived);
+                    } else {
+                        console.log('there are no more transactions that need to be processed.');
+                    }
                 }
             });
         }
-
     };
 
-    var hashesReceived = new Event('hashesReceived');
-    document.addEventListener('hashesReceived', getTansactions, false);
-
-    var getTransactionHashes = function() {    
+    function getTransactionHashes(e) {    
         
         iterationTracker.getTransactionHashes.iterations = 0;
         iterationTracker.getTransactionHashes.total = toBeProcessed.length;
