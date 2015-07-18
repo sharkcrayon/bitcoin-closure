@@ -37,7 +37,7 @@ Coming very soon...
 ### Python Command Line Tool
 First grab the files from this repo:
 
-`$ git clone https://github.com/Austin-Williams/bitcoin-closure.git`
+`$ git clonehttps://github.com/sharkcrayon/bitcoin-closure.git`
 
 Dig into the python folder:
 
