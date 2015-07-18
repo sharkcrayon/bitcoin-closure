@@ -68,3 +68,17 @@ As a good first example, try this command:
 `$ python closure.py 1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf`
 
 And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
+
+### More about Closures
+Let **X** be the set of all bitcoin addresses.
+We will write A ~ B whenever bitcoin address A is in the closure of bitcoin address B.
+
+The following properties hold for the relation ~ defined on the set of all bitcoin addresses, and are easy to prove from the definition of closure:
+
+**Reflexive**: ∀A ∈**X**, A~A. 
+
+**Symmetric**: ∀A,B ∈ **X**, A~B ⇒ B~A.
+
+**Transitive**: ∀A,B,C ∈**X**, A~B & B~C ⇒ A~C
+
+Thus ~ forms an equivalence relation on **X**.
