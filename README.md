@@ -1,5 +1,7 @@
 # bitcoin-closure
-A tool for computing the closure of a bitcoin address.
+*A project by Serena Randolph and Austin Williams
+
+**bitcoin-closure** is a tool for computing the closure of a bitcoin address.
 
 ## What is the Closure of a Bitcoin Address?
 The closure of a bitcoin address is is defined recursively as follows:
