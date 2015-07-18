@@ -9,7 +9,6 @@ $(document).ready(function() {
         numberTxn,
         inputsListBtcAddresses,
         foundAddr = false,
-        siblingAddresses = [],
         addrIndex;
 
     // just a nice waiting indicator for the user
@@ -154,23 +153,20 @@ $(document).ready(function() {
 
                         // check if addr is one of the input's addresses. if it is, all addresses in inputAddresses are in the closure of bitaddress.
                         foundAddr = false;
-                        siblingAddresses = [];
-
                         if ((addrIndex = inputAddresses.indexOf(addr)) > -1) {
                             foundAddr = true;
-                            siblingAddresses = inputAddresses.splice(addrIndex, 1);
                         }
-                        // console.log('foundAddr: ', foundAddr);
-                        // console.log('input addresses: ', inputAddresses);
-                        // console.log('bitaddress: ', bitaddress);
-                        // console.log('sibling Addresses: ', siblingAddresses);
+                        console.log('foundAddr: ', foundAddr);
+                        console.log('input addresses: ', inputAddresses);
+                        console.log('bitaddress: ', bitaddress);
 
                         // if inputAddresses are in the closure of bitaddress:
                         if (foundAddr) {
                             // add addr to toBeProcessed if it has not been processed already
-                            for (var sibAddr in siblingAddresses) {
-                                if ((closure.indexOf(sibAddr) == -1) && (toBeProcessed.indexOf(sibAddr) === -1)) {
-                                    toBeProcessed = toBeProcessed.concat(sibAddr);
+                            for (var k in inputAddresses) {
+                                if ((closure.indexOf(inputAddresses[k]) == -1) && (toBeProcessed.indexOf(inputAddresses[k]) === -1)) {
+                                    toBeProcessed = toBeProcessed.concat(inputAddresses[k]);
+                                    console.log('added to toBeProcessed');
                                 }
                             }
 
@@ -231,7 +227,7 @@ $(document).ready(function() {
         // do nice things for the user
         initSubmit();
 
-        bitaddress = '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
+        bitaddress = '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL'; // '1PabtoJrSJmDDTf3v5KzM1c4SK2kpkmUnt'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
         toBeProcessed.push(bitaddress);
 
         console.log('getting transaction hashes');
