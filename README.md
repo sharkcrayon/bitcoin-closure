@@ -37,7 +37,7 @@ Coming very soon...
 ### Python Command Line Tool
 First grab the files from this repo:
 
-`$ git clone https://github.com/sharkcrayon/bitcoin-closure`
+`$ git clone https://github.com/sharkcrayon/identitybits`
 
 Dig into the python folder:
 
