@@ -173,6 +173,7 @@ $(document).ready(function() {
         // do nice things for the user
         initSubmit();
 
+        // TODO: Put my name at top of code.
         // TODO: Check that entered value is actually a bitcoin address.
 
         bitaddress =  '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';// '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
