@@ -47,9 +47,7 @@ $(document).ready(function() {
     };
 
     function getTransactionHashes() {    
-        // iterationTracker.getTransactionHashes.iterations = 0;
-        // iterationTracker.getTransactionHashes.total = toBeProcessed.length;
-        console.log('there are ' + toBeProcessed.length + ' sets of hashes to get');
+        console.log('there are ' + toBeProcessed.length + ' addresses to process');
 
         iterationTracker.toBeProcessed.processedIterations = 0;
         iterationTracker.toBeProcessed.totalIterations = toBeProcessed.length;
@@ -71,80 +69,101 @@ $(document).ready(function() {
             $.ajax({ // get the list of all transaction hashes involving this address
                 type : "POST",
                 dataType : "JSONP",
-                url : 'https://insight.bitpay.com/api/addr/' + addr + '?format=json', // 'https://blockchain.info/address/' + bitaddress + '?format=json',
+                url : 'https://insight.bitpay.com/api/txs/?address=' + addr, // 'https://insight.bitpay.com/api/addr/' + addr + '?format=json', // 'https://blockchain.info/address/' + bitaddress + '?format=json',
                 success : function(data) {
-                    displayData(data.transactions, 'Transactions associated with original address: \n\n');
-                    txnList = data.transactions; // store the transaction data for further processing
-                    checkTxnList(txnList);
+                    displayData(data, 'Transactions associated with original address: \n\n');
+                    txnList = data.txs; // store the transaction data for further processing
+                    checkTxnList(txnList, addr);
                 }
             });
         })();
     }
 
-    function checkTxnList(txnList) {
+    function checkTxnList(txnList, addr) {
         return (function() {
             console.log('checking txnList for addr ', addr);
-            console.log('there are ' + txnList.length + ' transactions to get');
+            console.log('there are ' + txnList.length + ' transactions to process');
             iterationTracker.transactions[addr] = {
                 'processedTransactions' : 0,
                 'totalTransactions' : txnList.length
             };
 
             var txn;
-            var txnCount = 0;
 
-            while (txnList.length > 0) { // get the transaction data for each transaction data hash
+            while (txnList.length > 0) { // iterate through each transaction associated with the current address
                 txn = txnList.shift();
-                $.ajax({
-                    type : "POST",
-                    dataType : "JSONP",
-                    url : 'https://insight.bitpay.com/api/tx/' + txn + '?format=json',
-                    success : function(data) {
-                        // check to see if original address is in transaction input list; if so, add to toBeProcessed if it has not been processed.
-                        if (data.vin.length > 1) { // data.vin hold the inputs for txn.
-                            
-                            // grab the bitcoin addresses associated with each input
-                            inputAddresses = [];
-                            for (var j = 0; j < data.vin.length; j++){
-                                inputAddresses = inputAddresses.concat( data.vin[j].addr );
-                            }
 
-                            // check if addr is one of the input's addresses. if it is, all addresses in inputAddresses are in the closure of bitaddress.
-                            foundAddr = false;
-                            if ((addrIndex = inputAddresses.indexOf(addr)) > -1) {
-                                foundAddr = true;
-                            }
+                // check to see if addr is in transaction input list; if so, add any sibling addresses to toBeProcessed if they have not already been processed.
+                if (txn.vin.length > 1) { // txn.vin holds the input addresses for this transaction.
+                    
+                    // grab the addresses associated with each input
+                    inputAddresses = [];
+                    for (var j = 0; j < txn.vin.length; j++){
+                        inputAddresses = inputAddresses.concat( txn.vin[j].addr );
+                    }
 
-                            // if inputAddresses are in the closure of bitaddress:
-                            if (foundAddr) {
-                                // add addr to toBeProcessed if it has not been processed already
-                                for (var k in inputAddresses) {
-                                    if ((closure.indexOf(inputAddresses[k]) === -1) && (toBeProcessed.indexOf(inputAddresses[k]) === -1)) {
-                                        toBeProcessed = toBeProcessed.concat(inputAddresses[k]);
-                                    }
-                                }
+                    // check if addr is one of the input's addresses. if it is, all addresses in inputAddresses are in the closure of bitaddress.
+                    foundAddr = false;
+                    if ((addrIndex = inputAddresses.indexOf(addr)) > -1) foundAddr = true;
+
+                    // if inputAddresses are in the closure of bitaddress:
+                    if (foundAddr) {
+                        // add addr to toBeProcessed if it has not been processed already
+                        for (var k in inputAddresses) {
+                            if ((closure.indexOf(inputAddresses[k]) === -1) && (toBeProcessed.indexOf(inputAddresses[k]) === -1)) {
+                                toBeProcessed = toBeProcessed.concat(inputAddresses[k]);
                             }
                         }
                     }
-                }).then(function() {
-                    iterationTracker.transactions[addr].processedTransactions++;
+                }
 
-                    if (finishedThisAddrTxns(addr)) {
-                        console.log('finished processing transactions for addr ' + addr);
-                        iterationTracker.toBeProcessed.processedIterations++;
-                        if (finishedtoBeProcessed()) {
-                            if (toBeProcessed.length > 0) {
-                                console.log('its time to call toBeProcessed again');
-                                console.log('toBeProcessed: ', toBeProcessed);
-                                getTransactionHashes();
-                            } else {
-                                console.log('closure: ' + closure);
-                            }
+                // update the iterationTracker for this addr
+                iterationTracker.transactions[addr].processedTransactions++;
+
+                if (finishedThisAddrTxns(addr)) {
+                    console.log('finished processing transactions for addr ' + addr);
+                    iterationTracker.toBeProcessed.processedIterations++;
+                    if (finishedtoBeProcessed()) {
+                        if (toBeProcessed.length > 0) {
+                            console.log('its time to call toBeProcessed again');
+                            console.log('toBeProcessed: ', toBeProcessed);
+                            getTransactionHashes();
+                        } else {
+                            console.log('closure: ' + closure);
+                            getBitcoinTotal(closure);
                         }
                     }
-                });
+                }
             }
         })();
+    }
+
+    function getBitcoinTotal(addresses) {
+        console.log('getting bitcoin total');
+        // do some formatting
+        if ( Object.prototype.toString.call( addresses ) === '[object Array]' ) {
+            addresses = addresses.join(',');
+        }
+
+        if (typeof addresses !== 'string') {
+            console.log('Sorry, this function takes an array for multiple addresses or a string for a single address or comma-separated addresses');
+            return false;
+        }
+
+        var bitcoinTotal = 0;
+
+        $.ajax({ // get the list of all transaction hashes involving this address
+            type : "POST",
+            dataType : "JSONP",
+            url : 'https://insight.bitpay.com/api/addrs/' + addresses + '/utxo',
+            success : function(data) {
+                for (var k in data) {
+                    bitcoinTotal += data[k].amount;
+                }
+            }
+        }).then(function() {
+            console.log('total bitcoins: ' + bitcoinTotal);
+        });
     }
 
     $('.js-bitaddress').submit(function(e) {
@@ -155,14 +174,11 @@ $(document).ready(function() {
         initSubmit();
 
         // TODO: Check that entered value is actually a bitcoin address.
-        // TODO: Use blockchain.info API and get rid of extra API call.
 
-        bitaddress =  '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf'; // '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL'; // '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
+        bitaddress =  '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';// '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
         toBeProcessed.push(bitaddress);
 
         getTransactionHashes();
-
-        // TODO: Print bitcoin total.
 
     });
 });
