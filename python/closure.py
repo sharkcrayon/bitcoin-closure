@@ -13,21 +13,23 @@
 import sys
 import time
 import logging
-from blockchain import blockexplorer
+import requests
+
+
 
 logging.basicConfig(filename='logfile.log',level=logging.DEBUG, mode='w')
 
 def playNice():
     #be nice to the api. Limit the rate of api calls.
     global lastCall
-    nicetime = 1 #number of seconds to wait beteeen api calls
+    nicetime = 5 #number of seconds to wait beteeen api calls
     if time.time() - lastCall < nicetime :
-        print "Letting the api cool down... waiting for ", (nicetime - (time.time() - lastCall)), " seconds..."
+        print "Letting the api cool down so it doesn't block us ... \n waiting for ", (nicetime - (time.time() - lastCall)), " seconds..."
     time.sleep(max(0, nicetime - (time.time() - lastCall)))
     lastCall = time.time()
-    print "processing..."
+    print "Waiting for response from the API ..."
 
-def computeCLosure(inputaddr):
+def computeClosure(inputaddr):
     closure = [];
     logging.info( "begining computeClosure function" )
     addrstoBeProcessed = [inputaddr]
@@ -41,33 +43,38 @@ def computeCLosure(inputaddr):
         # get all transactions associated with workingAddres
         logging.info("calling api to get all info for the address " + str(workingAddr))
         playNice()
-        workingAddrInfo = blockexplorer.get_address(workingAddr)
+        r = requests.get("https://insight.bitpay.com/api/txs/?address=" + str(workingAddr))
+        r.json()
+        workingAddrInfo = r.json()
+
+        # print "wow"
+        #print workingAddrInfo['txs'][0]['txid']
+        #print 'wowow'
+        #for data in workingAddrInfo['txs'][0]['vin'][0]['addr'] : print data
         logging.info("api response received")
-        closureBalance = closureBalance + workingAddrInfo.final_balance
-        logging.info("this address has a current balance of " + str(workingAddrInfo.final_balance))
-        logging.info("this closure has a balance of at least " + str(closureBalance))
         #check the number of transactions
-        if len(workingAddrInfo.transactions) == 0 :
+        if len(workingAddrInfo['txs']) == 0 :
             logging.warning("There are no transactions associated with the address " + str(workingAddr))
             continue
         else :
-            logging.info("There are " + str(len(workingAddrInfo.transactions)) + " txns associated with address " +str(workingAddr))
+            logging.info("There are " + str(len(workingAddrInfo['txs'])) + " txns associated with address " +str(workingAddr))
+            print "processing " + str(len(workingAddrInfo['txs'])) +" txns ..."
         #now we loop through the list of transactions
-        for txn in workingAddrInfo.transactions :
-            logging.info("working on txn " + str(txn.hash))
-            if not txn.hash in txnsFullyProcessed :
+        for txnnum in range(len(workingAddrInfo['txs'])) :
+            logging.info("working on txn " + str(workingAddrInfo['txs'][txnnum]['txid']))
+            if not workingAddrInfo['txs'][txnnum]['txid'] in txnsFullyProcessed :
                 # we haven't processed the inputs from this txn before
                 logging.info("we haven't fully processed this txn before, so we'll do that now")
-                logging.info("this transacation has " + str(len(txn.inputs)) + " inputs")
-                if len(txn.inputs) == 1 :
-                    txnsFullyProcessed.append(txn.hash)
+                logging.info("this transacation has " + str(len(workingAddrInfo['txs'][txnnum]['vin'])) + " inputs")
+               	if len(workingAddrInfo['txs'][txnnum]['vin']) == 1 :
+                    txnsFullyProcessed.append(workingAddrInfo['txs'][txnnum]['txid'])
                     logging.info("this txn has only one input, so it's of no use to us.")
                 else :
-                    if workingAddr in [txn.inputs[i].address for i in range(len(txn.inputs))] :
+                    if workingAddr in [workingAddrInfo['txs'][txnnum]['vin'][i]['addr'] for i in range(len(workingAddrInfo['txs'][txnnum]['vin']))] :
                         #if this code executes then workingAdress is one of the inputs of txn
                         logging.info(str(workingAddr) + " is one of the inputs in this txn, so we'll process the rest of the inputs")
-                        txnsFullyProcessed.append(txn.hash)
-                        for address in [txn.inputs[i].address for i in range(len(txn.inputs))] :
+                        txnsFullyProcessed.append(workingAddrInfo['txs'][txnnum]['txid'])
+                        for address in [workingAddrInfo['txs'][txnnum]['vin'][i]['addr'] for i in range(len(workingAddrInfo['txs'][txnnum]['vin']))] :
                             if (not address in closure) and (not address in addrstoBeProcessed) :
                                 logging.info("the address " + str(address) + "is not currently in closure or addrstoBeProcessed, so we'll add it")
                                 addrstoBeProcessed.append(address)
@@ -77,22 +84,39 @@ def computeCLosure(inputaddr):
                         logging.info(str(workingAddr) + " is not one of the inputs to this transaction, so this txn is of no use to us right now")
             else :
                 logging.info("This txn has already been fully processed")
-            logging.info("finished processing txn " + str(txn.hash))
+            logging.info("finished processing txn " + str(workingAddrInfo['txs'][txnnum]['txid']))
+        print "finished processing " + str(len(workingAddrInfo['txs'])) + " txns. \n loading next address..." 
         logging.info("finished processing all txns associated with " + str(workingAddr))
-    return [closure, closureBalance]
+    # format the string
+    request=""
+    for addr in closure :
+    	request = addr + "," + request
+    request = request[:-1]
+    request = "https://insight.bitpay.com/api/addrs/" + request + "/utxo"
+    print "computing the balance of the closure ..."
+    playNice()
+    r = requests.get(request)
 
+    if r != [] :
+    	r.json()
+    	addrsInClosure = r.json()
+    	for addr in range(len(addrsInClosure)) :
+    		closureBalance = closureBalance + addrsInClosure[addr]['amount']
+    return [closure, closureBalance]
 def main():
     global lastCall
     lastCall = 0
     userinputAddr = unicode(sys.argv[1])
     print "User input address is ", str(userinputAddr), "\n"
     print "processing..."
-    [closure, closureBalance] = computeCLosure(userinputAddr)
+    [closure, closureBalance] = computeClosure(userinputAddr)
     print "\nThe closure of ", userinputAddr, " is:\n"
     for i in closure : print str(i)
     print "\nThe closure contains ", len(closure), "addresses"
-    print "\nThe current balance of this closure is: ", closureBalance / 100000000, " btc"
+    print "\nThe current balance of this closure is: ", closureBalance , " btc"
 
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
   main()
+
+# TO DO: delete logfile upon running

@@ -71,7 +71,7 @@ $(document).ready(function() {
                 dataType : "JSONP",
                 url : 'https://insight.bitpay.com/api/txs/?address=' + addr, // 'https://insight.bitpay.com/api/addr/' + addr + '?format=json', // 'https://blockchain.info/address/' + bitaddress + '?format=json',
                 success : function(data) {
-                    displayData(data, 'Transactions associated with original address: \n\n');
+                    //displayData(data, 'Transactions associated with original address: \n\n');
                     txnList = data.txs; // store the transaction data for further processing
                     checkTxnList(txnList, addr);
                 }
@@ -130,6 +130,7 @@ $(document).ready(function() {
                             getTransactionHashes();
                         } else {
                             console.log('closure: ' + closure);
+                            displayData(closure, "this is the closure");
                             getBitcoinTotal(closure);
                         }
                     }
