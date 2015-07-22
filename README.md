@@ -35,7 +35,7 @@ Coming very soon...
 
 
 ### Python Command Line Tool
-First grab the files from this repo:
+Grab the files from this repo:
 
 `$ git clone https://github.com/sharkcrayon/identitybits`
 
@@ -46,20 +46,7 @@ $ cd identitybits
 $ cd python
 ```
 
-Install the Blockchain API library:
-
-`pip install blockchain`
-
-Alternatively, you could install the Blockchain API manually:
-
-```
-$ git clone https://github.com/blockchain/api-v1-client-python
-$ cd api-v1-client-python
-$ python setup.py install
-```
-
-That's it. You should be good to go.
-To find the closure of an address just use the following command from command line:
+Then to find the closure of an address just use the following command from command line:
 
 `$ python closure.py 'address'`
 
@@ -68,6 +55,15 @@ As a good first example, try this command:
 `$ python closure.py 1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf`
 
 And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
+
+It can be slow (it takes time for the API at insight.bitpay.com to respond).
+Most errors are caused by:
+
+(1) invalid input address or
+
+(2) timeouts (slow internet speeds can result in timeout errors) or
+
+(2) API rate limiting (the API will stop responding if you call it too many times too quickly, or make the same calls several times in a row).
 
 ### Some Thoughts About Closures
 Let **X** be the set of all bitcoin addresses.
