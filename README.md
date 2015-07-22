@@ -56,14 +56,17 @@ As a good first example, try this command:
 
 And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
 
+### Troubleshooting
+
 It can be slow (it takes time for the API at insight.bitpay.com to respond).
+
 Most errors are caused by:
 
 (1) invalid input address or
 
 (2) timeouts (slow internet speeds can result in timeout errors) or
 
-(2) API rate limiting (the API will stop responding if you call it too many times too quickly, or make the same calls several times in a row).
+(3) API rate limiting (the API will stop responding if you call it too many times too quickly, or make the same calls several times in a row).
 
 ### Some Thoughts About Closures
 Let **X** be the set of all bitcoin addresses.
