@@ -8,7 +8,8 @@
 #
 #For example, try the following command:
 #$ python closure.py 1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf
-#That's the "Bitstamp Hack" address. Note that this address has balance of approx 0 btc, but it's closure has a balance of over 30 btc.
+#That's the "Bitstamp Hack" address. Note that this address has a balance of approx 0 btc, 
+#but it's closure has a balance of over 30 btc.
 
 import sys
 import time
