@@ -1,3 +1,8 @@
+// bitcoin-address-closure
+// A tool for computing the closure of a bitcoin address
+// Created by Serena Randolph and Austin Williams
+// GNU GENERAL PUBLIC LICENSE Version 2
+
 $(document).ready(function() {
 
     var bitaddress,
@@ -12,22 +17,19 @@ $(document).ready(function() {
         addrIndex;
 
     // just a nice waiting indicator for the user
-    var spinner = (function () {
-        var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
-        return new Spinner(opts);
-    })();
-
-    // the odds and ends we want to do when the process begins
-    var initSubmit = function() {
-        // be nice and communicate to the user
-        spinner.spin(document.getElementById('spinner'));
-        $('.js_bitadd-heading > span').text(bitaddress);
-    };
+    // var spinner = (function () {
+    //     var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
+    //     return new Spinner(opts);
+    // })();
 
     // display the results to the user
     var displayData = function(data, message) {
-        spinner.stop();
+        //spinner.stop();
         $('#results > pre').text(message + JSON.stringify(data, null, '\t'));
+    };
+
+    var displayText = function(target, message) {
+        $(target).text(message);
     };
 
     var iterationTracker = {
@@ -65,13 +67,11 @@ $(document).ready(function() {
 
     function checkAddr(addr) {
         return (function() {
-            console.log('checking address: ', addr);
             $.ajax({ // get the list of all transaction hashes involving this address
                 type : "POST",
                 dataType : "JSONP",
                 url : 'https://insight.bitpay.com/api/txs/?address=' + addr, // 'https://insight.bitpay.com/api/addr/' + addr + '?format=json', // 'https://blockchain.info/address/' + bitaddress + '?format=json',
                 success : function(data) {
-                    //displayData(data, 'Transactions associated with original address: \n\n');
                     txnList = data.txs; // store the transaction data for further processing
                     checkTxnList(txnList, addr);
                 }
@@ -130,7 +130,8 @@ $(document).ready(function() {
                             getTransactionHashes();
                         } else {
                             console.log('closure: ' + closure);
-                            displayData(closure, "this is the closure");
+                            displayText('.js_bitadd-closure-total > span', closure.length);
+                            displayData(closure, "Addresses in closure: ");
                             getBitcoinTotal(closure);
                         }
                     }
@@ -164,32 +165,33 @@ $(document).ready(function() {
             }
         }).then(function() {
             console.log('total bitcoins: ' + bitcoinTotal);
+            displayText('.js_bitadd-bitcoin-total > span', bitcoinTotal);
         });
+    }
+
+    function verifyBitAddress(address) {
+
     }
 
     $('.js-bitaddress').submit(function(e) {
 
         e.preventDefault();
 
-        // do nice things for the user
-        initSubmit();
+        // TODO: Verify address (and no blanks!)
+        //       Clear out previous data if another address is submitted
+        //       Provide text updates as to the status of API queries/transaction processing
 
-        // TODO: Put my name at top of code.
-        // TODO: Check that entered value is actually a bitcoin address.
+        // Some test addresses: '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';// '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL';
+        bitaddress = $('#f-bitaddress__input').val();
+        
+        verifyBitAddress(bitaddress); // TODO: verify. how to only allow process to continue if verifies?
 
-        bitaddress =  '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';// '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL'; // $('#f-bitaddress__input').val(); //EXAMPLE WITH A COINJOIN TRANSACTION bitaddress = '1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
+        // spinner.spin(document.getElementById('spinner'));
+        displayText('.js_bitadd-address > span', bitaddress);
+
         toBeProcessed.push(bitaddress);
 
         getTransactionHashes();
 
     });
 });
-
-
-
-//displayData(closure, "The closure looks like: ");
-//This ^ API query gives us a list of (hashes of) all transactions that involve the btc address we gave it.
-//For example, you'll see that the first txn hash that is listed is ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98.
-//We can grab the actual transaction data itself (which we'll need) using another API call. In particular, this one:
-//https://insight.bitpay.com/api/tx/ae52255570201cb1d6e27119cb329aec9d7cab451aa1d4c42a87cd82ea5a5c98
-//The response to that ^ API call is the actual bitcoin transaction (whose hash is 'ae5334447....'). We can parse that to get the inputs to the txn. :)

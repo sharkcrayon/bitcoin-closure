@@ -3,7 +3,7 @@
 html { font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 300; color: #666; } 
 body { font-size: 100%; }
 
-h1 { font-size: 1.2rem; color: #444; margin: 0; }
+h1 { font-size: 1.2rem; color: #444; margin: 0 0 10px; text-align: left; }
 
 input, form, div { box-sizing: border-box; font-family: inherit; }
 
@@ -13,8 +13,8 @@ button:focus, input:focus { outline: none; }
 
 .center { text-align: center; }
 
-#f-bitaddress { width: 380px; margin: 0 auto; overflow: hidden; margin-top: 100px; }
-#f-bitaddress__input { padding: 0 20px; width: 300px; float: left; height: 44px; line-height: 44px; }
+#f-bitaddress { width: 600px; margin: 0 auto; overflow: hidden; margin-top: 100px; }
+#f-bitaddress__input { padding: 0 20px; width: 520px; float: left; height: 44px; line-height: 44px; }
 #f-bitaddress__submit { border: none; background-color: #009AEF; color: #fff; width: 70px; margin-left: 10px; padding: 0; height: 44px; line-height: 44px; cursor: pointer; }
 
 #submitted-info { width: 100%; max-width: 600px; margin: 0 auto; padding: 30px 0 0; }
