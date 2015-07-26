@@ -13,19 +13,28 @@ $(document).ready(function() {
         foundAddr = false;
 
     // just a nice waiting indicator for the user
-    // var spinner = (function () {
-    //     var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
-    //     return new Spinner(opts);
-    // })();
+    var spinner = (function () {
+        var opts = { lines: 9, length: 6, width: 4, radius: 6, scale: 1, corners: 1, color: '#000', opacity: 0.25, rotate: 0, direction: 1, speed: 0.8, trail: 72, fps: 20, zIndex: 2e9, className: 'spinner', top: '50%', left: '50%', shadow: false, hwaccel: true, position: 'absolute' };
+        return new Spinner(opts);
+    })();
 
     // display the results to the user
-    var displayData = function(data, message) {
-        //spinner.stop();
-        $('#results > pre').text(message + JSON.stringify(data, null, '\t'));
+    var displayData = function(message, data, clear) {
+        data = (data) ? JSON.stringify(data, null, '\t') : '';
+        if (clear) {
+            $('#results > pre').text(message + data + '\n');    
+        } else {
+            $('#results > pre').append(message + data + '\n');
+        }
+        
     };
 
     var displayText = function(target, message) {
         $(target).text(message);
+    };
+
+    var clearInterface = function() {
+        $('.js-clear-interface').text('');
     };
 
     var iterationTracker = {
@@ -46,6 +55,7 @@ $(document).ready(function() {
 
     function getTransactionHashes() {    
         console.log('there are ' + toBeProcessed.length + ' addresses to process');
+        displayData('Calling the API, please wait.');
 
         iterationTracker.toBeProcessed.processedIterations = 0;
         iterationTracker.toBeProcessed.totalIterations = toBeProcessed.length;
@@ -53,7 +63,6 @@ $(document).ready(function() {
         var processCount = 0;
 
         while (toBeProcessed.length > 0) {
-            console.log('toBeProcessed iteration ', ++processCount);
             addr = toBeProcessed.shift(); // grab the top address to be processed and remove from toBeProcessed list.
             closure.push(addr); // put the address in the closure. this records which addresses have been processed.
 
@@ -126,8 +135,9 @@ $(document).ready(function() {
                             getTransactionHashes();
                         } else {
                             console.log('closure: ' + closure);
+                            spinner.stop();
                             displayText('.js_bitadd-closure-total > span', closure.length);
-                            displayData(closure, "Addresses in closure: ");
+                            displayData("Addresses in closure: ", closure, true);
                             getBitcoinTotal(closure);
                         }
                     }
@@ -181,16 +191,18 @@ $(document).ready(function() {
         txnList = [];
         foundAddr = false;
 
-        // TODO: Verify address (and no blanks!)
-        //       Clear out previous data if another address is submitted
+        clearInterface();
+
+        // TODO: 
+        //       Verify address (and no blanks!)
         //       Provide text updates as to the status of API queries/transaction processing
 
-        // Some test addresses: '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';// '1PhxUNNLFgMALYQv1UhHRnkc4aukos9vFL';
+        // Some test addresses: '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
         bitaddress = $('#f-bitaddress__input').val();
         
         verifyBitAddress(bitaddress); // TODO: verify. how to only allow process to continue if verifies?
 
-        // spinner.spin(document.getElementById('spinner'));
+        spinner.spin(document.getElementById('spinner'));
         displayText('.js_bitadd-address > span', bitaddress);
 
         toBeProcessed.push(bitaddress);
