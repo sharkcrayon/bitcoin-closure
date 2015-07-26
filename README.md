@@ -37,12 +37,12 @@ Coming very soon...
 ### Python Command Line Tool
 Grab the files from this repo:
 
-`$ git clone https://github.com/sharkcrayon/identitybits`
+`$ git clone https://github.com/sharkcrayon/bitcoin-closure`
 
 Dig into the python folder:
 
 ```
-$ cd identitybits
+$ cd bitcoin-closure
 $ cd python
 ```
 
@@ -52,7 +52,7 @@ Then to find the closure of an address just use the following command from comma
 
 As a good first example, try this command:
 
-`$ python closure.py 1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf`
+`$ python closure.py 1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv`
 
 And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
 
