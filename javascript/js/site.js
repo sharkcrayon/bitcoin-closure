@@ -10,11 +10,7 @@ $(document).ready(function() {
         closure = [], // the closure of bitaddress
         toBeProcessed = [], // the list of addresses to process
         txnList = [],
-        inputsList = [],
-        numberTxn,
-        inputsListBtcAddresses,
-        foundAddr = false,
-        addrIndex;
+        foundAddr = false;
 
     // just a nice waiting indicator for the user
     // var spinner = (function () {
@@ -104,7 +100,7 @@ $(document).ready(function() {
 
                     // check if addr is one of the input's addresses. if it is, all addresses in inputAddresses are in the closure of bitaddress.
                     foundAddr = false;
-                    if ((addrIndex = inputAddresses.indexOf(addr)) > -1) foundAddr = true;
+                    if (inputAddresses.indexOf(addr) > -1) foundAddr = true;
 
                     // if inputAddresses are in the closure of bitaddress:
                     if (foundAddr) {
@@ -176,6 +172,14 @@ $(document).ready(function() {
     $('.js-bitaddress').submit(function(e) {
 
         e.preventDefault();
+
+        // reset variables in case this is not the first submission.
+        bitaddress = '';
+        addr = '';
+        closure = [];
+        toBeProcessed = [];
+        txnList = [];
+        foundAddr = false;
 
         // TODO: Verify address (and no blanks!)
         //       Clear out previous data if another address is submitted
