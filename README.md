@@ -1,5 +1,5 @@
 # bitcoin-closure
-*A project by Serena Randolph and [Austin Williams](https://onename.com/austinwilliams)*
+*A project by Serena Randolph and <a href="https://onename.com/austinwilliams" target="_blank">Austin Williams</a>*
 
 **bitcoin-closure** is a tool for computing the closure of a bitcoin address.
 
@@ -11,7 +11,7 @@ The closure of a bitcoin address is defined recursively as follows:
 
 The motivation is that if two addresses appear together as inputs in some transaction, then the two addresses are very likely to be controlled by the same entity. **As a result, all of the addresses in the closure of an address are very likely owned by the same entity***.
 
-This linking was noted by Satoshi Nakamoto in the [Bitcoin whitepaper](https://bitcoin.org/bitcoin.pdf) (page 6):
+This linking was noted by Satoshi Nakamoto in the <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">Bitcoin whitepaper</a> (page 6):
 > “Some linking is still unavoidable with multi-input transactions, which necessarily
 reveal that their inputs were owned by the same owner. The risk is that if the owner
 of a key is revealed, linking could reveal other transactions that belonged to the
@@ -20,10 +20,10 @@ same owner.”
 
 You can read more about closures at these links:
 
-* [Evaluating User Privacy in Bitcoin](https://docs.google.com/viewer?url=http%3A%2F%2Ffc13.ifca.ai%2Fproc%2F1-3.pdf)
-* [A Fistful of Bitcoins: Characterizing Payments Among Men with No Names](https://docs.google.com/viewer?url=http%3A%2F%2Fcseweb.ucsd.edu%2F~smeiklejohn%2Ffiles%2Fimc13.pdf)
-* [An Analysis of Anonymity in the Bitcoin System](http://arxiv.org/abs/1107.4524)
-* [Trustless Bitcoin Anonymity Here at Last](https://bitcoinmagazine.com/6630/trustless-bitcoin-anonymity-here-at-last/)
+* <a href="https://docs.google.com/viewer?url=http%3A%2F%2Ffc13.ifca.ai%2Fproc%2F1-3.pdf" target="_blank">Evaluating User Privacy in Bitcoin</a>
+* <a href="https://docs.google.com/viewer?url=http%3A%2F%2Fcseweb.ucsd.edu%2F~smeiklejohn%2Ffiles%2Fimc13.pdf" target="_blank">A Fistful of Bitcoins: Characterizing Payments Among Men with No Names</a>
+* <a href="http://arxiv.org/abs/1107.4524" target="_blank">An Analysis of Anonymity in the Bitcoin System</a>
+* <a href="https://bitcoinmagazine.com/6630/trustless-bitcoin-anonymity-here-at-last/" target="_blank">Trustless Bitcoin Anonymity Here at Last</a>
 
 
 (*) There are important exceptions. Coinjoin transactions, for example, contain inputs from three or more distinct entities -- yet all the addresses used as inputs to a coinjoin transaction are contained in the same closure.
@@ -31,7 +31,7 @@ You can read more about closures at these links:
 ## Getting Started
 
 ### JavaScript Web Interface
-We're hosting a working implementation online [here](http://goo.gl/YxyBJA), so feel free to check that out.
+We're hosting a working implementation online <a href="http://goo.gl/YxyBJA" target="_blank">here</a>, so feel free to check that out.
 
 Otherwise, you can run the application from your own computer as follows.
 
@@ -68,7 +68,7 @@ As a good first example, try this command:
 
 `$ python closure.py 1M8s2S5bgAzSSzVTeL7zruvMPLvzSkEAuv`
 
-And [here is a list](http://www.theopenledger.com/9-most-famous-bitcoin-addresses/) of some fun addresses to play around with.
+And <a href="http://www.theopenledger.com/9-most-famous-bitcoin-addresses/" target="_blank">here is a list</a> of some fun addresses to play around with.
 
 ### Troubleshooting
 
@@ -94,13 +94,13 @@ The following properties hold for the relation ~ defined on the set of all bitco
 
 **Transitive**: ∀A,B,C ∈**X**, A~B & B~C ⇒ A~C
 
-Thus ~ induces an [equivalence relation](https://en.wikipedia.org/wiki/Equivalence_relation) on **X**. It follows that the set of all bitcoin addresses can be partitioned into closures of addresses.
+Thus ~ induces an <a href="https://en.wikipedia.org/wiki/Equivalence_relation" target="_blank">equivalence relation</a> on **X**. It follows that the set of all bitcoin addresses can be partitioned into closures of addresses.
 
 For those researchers doing blockchain analysis, it may be useful to consider whether your analysis can be extended from individual bitcoin addresses to entire the entire closures. For example, rather than simply analysizing the traditional bitcoin-transaction graph, you may also want to study the closure-transaction graph -- where the vertices are bitcoin closures and there exists a directed edge from _closureA_ to _closureB_ if any address in _closureA_ has sent funds to any address in _closureB_.
 
 ### Donate
 
-If you like the project please donate a few bits to [17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU](https://www.blockchain.info/address/17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU). 
+If you like the project please donate a few bits to <a href="https://www.blockchain.info/address/17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU" target="_blank">17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU</a>. 
 
 Here's the QRC:
 
