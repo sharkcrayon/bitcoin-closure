@@ -31,8 +31,22 @@ You can read more about closures at these links:
 ## Getting Started
 
 ### JavaScript Web Interface
-Coming very soon...
+We're hosting a working implementation online [here](http://projectamazingproject.com/projects/bitcoin-closure/index.html), so feel free to check that out.
 
+Otherwise, you can run the application from your own computer as follows.
+
+Grab the files from this repo:
+
+`$ git clone https://github.com/sharkcrayon/bitcoin-closure`
+
+Dig into the javascript folder:
+
+```
+$ cd bitcoin-closure
+$ cd javascript
+```
+
+Then open the `index.html` file in your browser and enter a bitcoin address.
 
 ### Python Command Line Tool
 Grab the files from this repo:
