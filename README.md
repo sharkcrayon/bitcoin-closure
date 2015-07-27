@@ -86,7 +86,7 @@ For those researchers doing blockchain analysis, it may be useful to consider wh
 
 ### Donate
 
-If you like the project please donate a few bits to [17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU](blockchain.info/address/17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU). 
+If you like the project please donate a few bits to [17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU](https://www.blockchain.info/address/17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU). 
 
 Here's the QRC:
 
