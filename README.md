@@ -31,7 +31,7 @@ You can read more about closures at these links:
 ## Getting Started
 
 ### JavaScript Web Interface
-We're hosting a working implementation online [here](http://projectamazingproject.com/projects/bitcoin-closure/index.html), so feel free to check that out.
+We're hosting a working implementation online [here](http://goo.gl/YxyBJA), so feel free to check that out.
 
 Otherwise, you can run the application from your own computer as follows.
 
