@@ -83,3 +83,13 @@ The following properties hold for the relation ~ defined on the set of all bitco
 Thus ~ induces an [equivalence relation](https://en.wikipedia.org/wiki/Equivalence_relation) on **X**. It follows that the set of all bitcoin addresses can be partitioned into closures of addresses.
 
 For those researchers doing blockchain analysis, it may be useful to consider whether your analysis can be extended from individual bitcoin addresses to entire the entire closures. For example, rather than simply analysizing the traditional bitcoin-transaction graph, you may also want to study the closure-transaction graph -- where the vertices are bitcoin closures and there exists a directed edge from _closureA_ to _closureB_ if any address in _closureA_ has sent funds to any address in _closureB_.
+
+### Donate
+
+If you like the project please donate a few bits to [17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU](blockchain.info/address/17fEqNTUuot3FoDaR5YrCAVwpGRNn8zJDU). 
+
+Here's the QRC:
+
+![Image of QRC for 17fE...](https://raw.githubusercontent.com/sharkcrayon/bitcoin-closure/master/qrc-donation.png) 
+
+We appreciate pats on the head.
