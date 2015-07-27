@@ -3,7 +3,7 @@
 html { font-size: 16px; font-family: 'Lato', sans-serif; font-weight: 300; color: #666; } 
 body { font-size: 100%; }
 
-h1 { font-size: 1.2rem; color: #444; margin: 0 0 10px; text-align: left; }
+h1 { font-size: 1.2rem; color: #444; margin: 0 0 10px; text-align: left; font-weight: 400;}
 
 input, form, div { box-sizing: border-box; font-family: inherit; }
 
@@ -11,12 +11,17 @@ pre, pre.prettyprint { margin: 0 !important; padding: 0 !important; border: 0 !i
 
 button:focus, input:focus { outline: none; }
 
+a { color: #009AEF; text-decoration: none; font-size: inherit; }
+
 .center { text-align: center; }
 
-#f-bitaddress { width: 600px; margin: 0 auto; overflow: hidden; margin-top: 100px; }
+#header {width: 100%; text-align: center; font-size: 250%; margin-top: 50px;}
+#more-info {width: 100%; text-align: center; margin-bottom: 500px; font-size: 1.1rem; }
+
+#f-bitaddress { width: 600px; margin: 0 auto; overflow: hidden; margin-top: 50px; }
 #f-bitaddress__input { padding: 0 20px; width: 520px; float: left; height: 44px; line-height: 44px; }
-#f-bitaddress__submit { border: none; background-color: #009AEF; color: #fff; width: 70px; margin-left: 10px; padding: 0; height: 44px; line-height: 44px; cursor: pointer; }
+#f-bitaddress__submit { border: none; background-color: #009AEF; color: #fff; width: 70px; margin-left: 10px; padding: 0; height: 44px; line-height: 44px; cursor: pointer; font-weight: 700;}
 
-#submitted-info { width: 100%; max-width: 600px; margin: 0 auto; padding: 30px 0 0; }
+#submitted-info { width: 100%; max-width: 600px; margin: 0 auto; padding: 30px 0 0; font-size: 1.25rem}
 
-#results { width: 100%; max-width: 600px; min-height: 300px; position: relative; margin: 30px auto 0; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
+#results { width: 100%; max-width: 600px; min-height: 300px; position: relative; margin: 30px auto 25px; background-color: #f9f9f9; border: 1px solid #e4e4e4; padding: 30px; }
