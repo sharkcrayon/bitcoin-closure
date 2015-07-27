@@ -26,7 +26,7 @@ You can read more about closures at these links:
 * [Trustless Bitcoin Anonymity Here at Last](https://bitcoinmagazine.com/6630/trustless-bitcoin-anonymity-here-at-last/)
 
 
-(*) There are important exceptions. Coinjoin transactions for example, contain inputs from three or more distinct entities -- yet all the addresses used as inputs to a coinjoin transaction are contained in the same closure.
+(*) There are important exceptions. Coinjoin transactions, for example, contain inputs from three or more distinct entities -- yet all the addresses used as inputs to a coinjoin transaction are contained in the same closure.
 
 ## Getting Started
 
@@ -105,5 +105,3 @@ If you like the project please donate a few bits to [17fEqNTUuot3FoDaR5YrCAVwpGR
 Here's the QRC:
 
 ![Image of QRC for 17fE...](https://raw.githubusercontent.com/sharkcrayon/bitcoin-closure/master/qrc-donation.png) 
-
-We appreciate pats on the head.
