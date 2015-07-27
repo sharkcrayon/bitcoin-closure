@@ -20,7 +20,7 @@ same owner.”
 
 You can read more about closures at these links:
 
-* [Evaluating User Privacy inBitcoin](https://docs.google.com/viewer?url=http%3A%2F%2Ffc13.ifca.ai%2Fproc%2F1-3.pdf)
+* [Evaluating User Privacy in Bitcoin](https://docs.google.com/viewer?url=http%3A%2F%2Ffc13.ifca.ai%2Fproc%2F1-3.pdf)
 * [A Fistful of Bitcoins: Characterizing Payments Among Men with No Names](https://docs.google.com/viewer?url=http%3A%2F%2Fcseweb.ucsd.edu%2F~smeiklejohn%2Ffiles%2Fimc13.pdf)
 * [An Analysis of Anonymity in the Bitcoin System](http://arxiv.org/abs/1107.4524)
 * [Trustless Bitcoin Anonymity Here at Last](https://bitcoinmagazine.com/6630/trustless-bitcoin-anonymity-here-at-last/)
