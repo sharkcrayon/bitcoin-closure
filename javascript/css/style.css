@@ -16,7 +16,7 @@ a { color: #009AEF; text-decoration: none; font-size: inherit; }
 .center { text-align: center; }
 
 #header {width: 100%; text-align: center; font-size: 250%; margin-top: 50px;}
-#more-info {width: 100%; text-align: center; margin-bottom: 500px; font-size: 1.1rem; }
+#more-info {width: 100%; text-align: center; margin-bottom: 50px; font-size: 1.1rem; }
 
 #f-bitaddress { width: 600px; margin: 0 auto; overflow: hidden; margin-top: 50px; }
 #f-bitaddress__input { padding: 0 20px; width: 520px; float: left; height: 44px; line-height: 44px; }
