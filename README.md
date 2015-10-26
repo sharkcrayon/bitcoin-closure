@@ -1,5 +1,5 @@
 # bitcoin-closure
-*A project by Serena Randolph and <a href="https://onename.com/austinwilliams" target="_blank">Austin Williams</a>*
+*A project by <a href="http://serenarandolph.com" target="_blank">Serena Randolph</a> and <a href="https://onename.com/austinwilliams" target="_blank">Austin Williams</a>*
 
 **bitcoin-closure** is a tool for computing the closure of a bitcoin address.
 
