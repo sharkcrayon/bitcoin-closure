@@ -200,7 +200,7 @@ $(document).ready(function() {
         // Some test addresses: '1L2JsXHPMYuAa9ugvHGLwkdstCPUDemNCf';//'1CAbbXyRpdtpA6TKXss2Ydd1gWfPGyCJdK';
         bitaddress = $('#f-bitaddress__input').val();
         
-        verifyBitAddress(bitaddress); // TODO: verify. how to only allow process to continue if verifies?
+        verifyBitAddress(bitaddress); // TODO: Verify. Only allow process to continue if verifies.
 
         spinner.spin(document.getElementById('spinner'));
         displayText('.js_bitadd-address > span', bitaddress);
